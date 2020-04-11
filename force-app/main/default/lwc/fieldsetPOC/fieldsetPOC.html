@@ -1,0 +1,15 @@
+<template>
+    <lightning-combobox
+        label="Form Type"
+        onchange={handleFormTypeChange}
+        placeholder="Select an option"
+        options={formTypeOptions}
+    ></lightning-combobox>
+    <lightning-record-form 
+        object-api-name={objectType} 
+        fields={objectFields} 
+        mode="edit" 
+        onsuccess={handleSuccess} 
+        onsubmit={handleSubmit}>    
+    </lightning-record-form>
+</template>
