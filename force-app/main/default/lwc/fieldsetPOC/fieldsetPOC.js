@@ -53,10 +53,46 @@ export default class FieldsetPOC extends LightningElement {
 
         var i;
         for (i = 0; i < fieldSetData.length; i++) {
-            fieldSetValues.push(fieldSetData[i].Path);
+            //HAVE TO CONVERT THIS INTO A NEW OBJECT SO WE CAN UPDATE IT
+            var newFieldSetField = {
+                InputType : fieldSetData[i].InputType,
+                Required : fieldSetData[i].Required,
+                Label : fieldSetData[i].Label,
+                Path : fieldSetData[i].Path,
+                Type : fieldSetData[i].Type,
+                HelpText : fieldSetData[i].HelpText
+            };
+
+            if(newFieldSetField.HelpText) {
+                console.log(newFieldSetField.HelpText);
+                var helpTextObject = JSON.parse(newFieldSetField.HelpText);
+
+                const parentElement = this.template.querySelector("lightning-input[data-id=" + helpTextObject.parent + "]");
+
+                if(parentElement && parentElement.checked) {
+                    newFieldSetField.Required = true;
+                }
+                else {
+                    continue;
+                }
+            }
+
+            //console.log(newFieldSetField);
+
+            fieldSetValues.push(newFieldSetField);
         }
 
+        //console.log(fieldSetValues);
+
         return fieldSetValues;
+    }
+
+    updateFieldValue(event) {
+        // const fieldLabel = event.target.label || '';
+        // const updatedValue = event.target.value || '';
+        // const updatedField = this.updatedFields.find(f => f.label.toLowerCase() === fieldLabel.toLowerCase());
+
+        console.log(this.objectFields);
     }
 
     getFieldSetFieldPath(fieldSetField){
@@ -65,7 +101,7 @@ export default class FieldsetPOC extends LightningElement {
 
     handleFormTypeChange(event){
         this.selectedFormTypeOption = event.detail.value;
-        console.log(this.selectedFormTypeOption);
+        //console.log(this.selectedFormTypeOption);
     }
 
     handleSubmit(event) {

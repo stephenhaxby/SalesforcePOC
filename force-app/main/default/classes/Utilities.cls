@@ -19,12 +19,13 @@ public class Utilities
     public static List<FieldSetField> getFieldSetFieldsByFieldSetName(String objectApiName, String fieldSetName)
     {
         List<Schema.FieldSetMember> fieldSetMembers = getFieldSets(objectApiName).get(fieldSetName).getFields();
+        Map<String, Schema.SObjectField> fieldDescribeTokens = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
 
         List<FieldSetField> fields = new List<FieldSetField>();
 
         for (Schema.FieldSetMember fieldSetMember : fieldSetMembers)
         {
-            fields.add(new FieldSetField(fieldSetMember));
+            fields.add(new FieldSetField(fieldSetMember, fieldDescribeTokens.get(fieldSetMember.getFieldPath()).getDescribe().getInlineHelpText()));
         }
 
         return fields;

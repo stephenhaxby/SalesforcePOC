@@ -5,11 +5,18 @@
         placeholder="Select an option"
         options={formTypeOptions}
     ></lightning-combobox>
-    <lightning-record-form 
-        object-api-name={objectType} 
-        fields={objectFields} 
-        mode="edit" 
-        onsuccess={handleSuccess} 
-        onsubmit={handleSubmit}>    
-    </lightning-record-form>
+
+    <template for:each={objectFields} for:item="field">
+        <div class="centered-fields" key={field.Path}>
+            <lightning-input
+                data-id={field.Path}
+                key={field.Path}
+                label={field.Label}
+                id={field.Path}
+                onchange={updateFieldValue}
+                type={field.InputType}
+                required={field.Required}
+            ></lightning-input>
+        </div>
+    </template>
 </template>
