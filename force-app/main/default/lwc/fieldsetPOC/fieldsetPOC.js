@@ -10,9 +10,15 @@ export default class FieldsetPOC extends LightningElement {
     objectApiName = 'Product2';
 
     @track selectedFormTypeOption;
+    @track trackedFieldsetValues = [];
+    @track currentFieldSetValues;
 
     @wire(getFieldSetFieldsByFieldSetName, {objectApiName: '$objectApiName', fieldSetName: '$selectedFormTypeOption'})
-    wiredFieldsToFetchFieldSet;
+    myWireFunction({data, error}){
+        this.currentFieldSetValues = data;
+        
+        this.setFieldSetValues(this.currentFieldSetValues);
+    }
 
     @wire(getFieldSetNames, {objectApiName: '$objectApiName'})
     wiredFieldSetNames;
@@ -38,12 +44,16 @@ export default class FieldsetPOC extends LightningElement {
     }
 
     //Gets all the fields for the selected Fieldset
-    get objectFields() {
-        if (!this.wiredFieldsToFetchFieldSet || !this.wiredFieldsToFetchFieldSet.data) {
-            return [];
+    setFieldSetValues(data) {
+        // if (!this.wiredFieldsToFetchFieldSet || !this.wiredFieldsToFetchFieldSet.data) {
+        //     this.trackedFieldsetValues = [];
+        // }
+
+        if(!data){
+            return;
         }
 
-        var fieldSetData = this.wiredFieldsToFetchFieldSet.data;
+        var fieldSetData = data;
         var fieldSetValues = [];
 
         //THIS WON'T WORK!?
@@ -64,11 +74,9 @@ export default class FieldsetPOC extends LightningElement {
             };
 
             if(newFieldSetField.HelpText) {
-                console.log(newFieldSetField.HelpText);
                 var helpTextObject = JSON.parse(newFieldSetField.HelpText);
 
                 const parentElement = this.template.querySelector("lightning-input[data-id=" + helpTextObject.parent + "]");
-
                 if(parentElement && parentElement.checked) {
                     newFieldSetField.Required = true;
                 }
@@ -82,9 +90,7 @@ export default class FieldsetPOC extends LightningElement {
             fieldSetValues.push(newFieldSetField);
         }
 
-        //console.log(fieldSetValues);
-
-        return fieldSetValues;
+        this.trackedFieldsetValues = fieldSetValues;
     }
 
     updateFieldValue(event) {
@@ -92,7 +98,7 @@ export default class FieldsetPOC extends LightningElement {
         // const updatedValue = event.target.value || '';
         // const updatedField = this.updatedFields.find(f => f.label.toLowerCase() === fieldLabel.toLowerCase());
 
-        console.log(this.objectFields);
+        this.setFieldSetValues(this.currentFieldSetValues);
     }
 
     getFieldSetFieldPath(fieldSetField){
@@ -101,7 +107,6 @@ export default class FieldsetPOC extends LightningElement {
 
     handleFormTypeChange(event){
         this.selectedFormTypeOption = event.detail.value;
-        //console.log(this.selectedFormTypeOption);
     }
 
     handleSubmit(event) {

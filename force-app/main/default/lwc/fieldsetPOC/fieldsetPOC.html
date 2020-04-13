@@ -6,7 +6,7 @@
         options={formTypeOptions}
     ></lightning-combobox>
 
-    <template for:each={objectFields} for:item="field">
+    <template for:each={trackedFieldsetValues} for:item="field">
         <div class="centered-fields" key={field.Path}>
             <lightning-input
                 data-id={field.Path}
