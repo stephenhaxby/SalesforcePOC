@@ -1,22 +1,31 @@
 <template>
-    <lightning-combobox
-        label="Form Type"
-        onchange={handleFormTypeChange}
-        placeholder="Select an option"
-        options={formTypeOptions}
-    ></lightning-combobox>
-
-    <template for:each={trackedFieldsetValues} for:item="field">
-        <div class="centered-fields" key={field.Path}>
-            <lightning-input
-                data-id={field.Path}
-                key={field.Path}
-                label={field.Label}
-                id={field.Path}
-                onchange={updateFieldValue}
-                type={field.InputType}
-                required={field.Required}
-            ></lightning-input>
+    <lightning-card title="Select a Fieldset">
+        <div class="slds-p-around_small">
+            <lightning-combobox
+                label="Form Type"
+                onchange={handleFormTypeChange}
+                placeholder="Select an option"
+                options={formTypeOptions}
+            ></lightning-combobox>
         </div>
-    </template>
+    </lightning-card>
+    <div class="slds-p-top_medium">
+        <lightning-card title="Fieldset Fields">
+            <div class="slds-p-around_small">
+                <template for:each={trackedFieldsetValues} for:item="field">
+                    <div class="centered-fields" key={field.Path}>
+                        <lightning-input
+                            data-id={field.Path}
+                            key={field.Path}
+                            label={field.Label}
+                            id={field.Path}
+                            onchange={updateFieldValue}
+                            type={field.InputType}
+                            required={field.Required}
+                        ></lightning-input>
+                    </div>
+                </template>
+            </div>
+        </lightning-card>
+    </div>
 </template>

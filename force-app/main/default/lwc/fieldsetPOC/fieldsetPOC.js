@@ -45,10 +45,6 @@ export default class FieldsetPOC extends LightningElement {
 
     //Gets all the fields for the selected Fieldset
     setFieldSetValues(data) {
-        // if (!this.wiredFieldsToFetchFieldSet || !this.wiredFieldsToFetchFieldSet.data) {
-        //     this.trackedFieldsetValues = [];
-        // }
-
         if(!data){
             return;
         }
@@ -75,17 +71,25 @@ export default class FieldsetPOC extends LightningElement {
 
             if(newFieldSetField.HelpText) {
                 var helpTextObject = JSON.parse(newFieldSetField.HelpText);
+                // { 
+                //    "parent" : "CheckboxField__c",
+                //    "visible" : true,
+                //    "mandatory" : true 
+                // }
 
-                const parentElement = this.template.querySelector("lightning-input[data-id=" + helpTextObject.parent + "]");
-                if(parentElement && parentElement.checked) {
-                    newFieldSetField.Required = true;
-                }
-                else {
-                    continue;
+                //See if the field exists in the fieldset to display
+                const existingElement = fieldSetValues.find(element => element.Path === helpTextObject.parent);
+                if(existingElement){
+                    const parentElement = this.template.querySelector("lightning-input[data-id=" + helpTextObject.parent + "]");
+
+                    if(parentElement && parentElement.type == 'checkbox' && parentElement.checked && helpTextObject.visible) {
+                        newFieldSetField.Required = helpTextObject.mandatory;
+                    }
+                    else {
+                        continue;
+                    }              
                 }
             }
-
-            //console.log(newFieldSetField);
 
             fieldSetValues.push(newFieldSetField);
         }
