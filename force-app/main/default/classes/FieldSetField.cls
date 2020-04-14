@@ -16,6 +16,9 @@ public class FieldSetField {
     public String HelpText { get; set; }
 
     @AuraEnabled
+    public String HelpTextCondition { get; set; }
+
+    @AuraEnabled
     public String InputType { get {
         switch on Type {
             when 'BOOLEAN' {
@@ -33,6 +36,13 @@ public class FieldSetField {
         this.Label = fieldSetMember.label;
         this.Path = fieldSetMember.fieldpath;
         this.Type = fieldSetMember.type.name();
-        this.HelpText = helpText;
+
+        if(!String.isBlank(helpText) && helpText.contains('{')){
+            this.HelpText = helpText.substringBefore('{');
+            this.HelpTextCondition = '{' + helpText.substringAfter('{');
+        }
+        else{
+            this.HelpText = helpText;
+        }
     }
 }

@@ -66,11 +66,12 @@ export default class FieldsetPOC extends LightningElement {
                 Label : fieldSetData[i].Label,
                 Path : fieldSetData[i].Path,
                 Type : fieldSetData[i].Type,
-                HelpText : fieldSetData[i].HelpText
+                HelpText : fieldSetData[i].HelpText,
+                HelpTextCondition : fieldSetData[i].HelpTextCondition
             };
 
-            if(newFieldSetField.HelpText) {
-                var helpTextObject = JSON.parse(newFieldSetField.HelpText);
+            if(newFieldSetField.HelpTextCondition) {
+                var helpTextObject = JSON.parse(newFieldSetField.HelpTextCondition);
                 // { 
                 //    "parent" : "CheckboxField__c",
                 //    "visible" : true,
