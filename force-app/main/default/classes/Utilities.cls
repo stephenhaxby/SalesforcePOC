@@ -65,12 +65,32 @@ public class Utilities
         ProductConfigurations productConfigurations = 
             (ProductConfigurations)JSON.deserialize(productConfigurationMetadata.Configuration__c, ProductConfigurations.class);
 
+        Map<String, Schema.SObjectField> fieldDescribeTokens = Schema.getGlobalDescribe().get('Product2').getDescribe().fields.getMap();
+
         for(ProductConfiguration productConfiguration : productConfigurations.ProductConfigurations){
 
             productConfiguration.ProductSectionConfigurations = new List<ProductSectionConfiguration>();
 
             List<ProductSectionConfiguration> productSectionConfigurations = 
                 productSectionConfigurationsGet(productConfiguration.ProductSectionConfiguration).ProductSectionConfigurations;
+
+            for(ProductSectionConfiguration productSectionConfiguration : productSectionConfigurations){
+
+                Schema.DescribeFieldResult field = fieldDescribeTokens.get(productSectionConfiguration.FieldName).getDescribe();
+                
+                productSectionConfiguration.Label = field.getLabel();
+                productSectionConfiguration.InputType = field.getType().name();
+
+                if(field.getType().name() == 'PICKLIST'){
+                    productSectionConfiguration.PicklistValues = new Map<String,String>();
+
+                    List<Schema.PicklistEntry> picklistFields = field.getPicklistValues();
+
+                    for(Schema.PicklistEntry picklistEntry : picklistFields){
+                        productSectionConfiguration.PicklistValues.put(picklistEntry.value, picklistEntry.label);
+                    }
+                }
+            }
 
             productConfiguration.ProductSectionConfigurations.addAll(productSectionConfigurations);
         }

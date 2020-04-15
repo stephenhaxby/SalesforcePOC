@@ -62,11 +62,39 @@ export default class CustomMetadataPOC extends LightningElement {
         console.log('2');
         console.log(data);
 
-        // var i;
-        // for (i = 0; i < data.ProductConfigurations.length; i++) {
-        //     console.log(data.ProductConfigurations[i]);
-        // }
+        var productConfigurations = {
+            ProductConfigurations : []
+        };
 
-        this.trackedProductConfigurations = data.ProductConfigurations;
+        for(var i = 0; i < data.ProductConfigurations.length; i++) {
+
+            var productConfiguration = data.ProductConfigurations[i];
+
+            var newProductConfiguration = {
+                Label : productConfiguration.Label,
+                ProductSectionConfiguration : productConfiguration.ProductSectionConfiguration,
+                ProductSectionConfigurations : []
+            }
+
+            for(var j = 0; j < productConfiguration.ProductSectionConfigurations.length; j++){
+                var productSectionConfiguration = productConfiguration.ProductSectionConfigurations[j];
+
+                var newProductSectionConfiguration = {
+                        Label : productSectionConfiguration.Label,
+                        FieldName : productSectionConfiguration.FieldName,
+                        Required : productSectionConfiguration.Required
+                    }
+                    
+                newProductConfiguration.ProductSectionConfigurations.push(newProductSectionConfiguration);
+            }
+
+            productConfigurations.ProductConfigurations.push(newProductConfiguration);
+        }
+
+        console.log('3');
+        console.log(productConfigurations);
+
+        //this.trackedProductConfigurations = data.ProductConfigurations;
+        this.trackedProductConfigurations = productConfigurations.ProductConfigurations;
     }
 }

@@ -1,5 +1,16 @@
 public class ProductSectionConfiguration {
 
+    //Enriched fields
+    @AuraEnabled
+    public String Label { get; set; }
+
+    @AuraEnabled
+    public String InputType { get; set; }
+
+    @AuraEnabled
+    public Map<String, String> PicklistValues { get; set; }
+
+    //JSON fields
     @AuraEnabled
     public String FieldName { get; set; }
 
