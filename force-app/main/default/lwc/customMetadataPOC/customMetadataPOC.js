@@ -79,10 +79,23 @@ export default class CustomMetadataPOC extends LightningElement {
             for(var j = 0; j < productConfiguration.ProductSectionConfigurations.length; j++){
                 var productSectionConfiguration = productConfiguration.ProductSectionConfigurations[j];
 
+                var picklistValues = [];
+                for(var key in productSectionConfiguration.PicklistValues){
+                    var item = {
+                        label: key,
+                        value: productSectionConfiguration.PicklistValues[key]
+                    };
+                    picklistValues.push(item);
+                }
+
                 var newProductSectionConfiguration = {
                         Label : productSectionConfiguration.Label,
                         FieldName : productSectionConfiguration.FieldName,
-                        Required : productSectionConfiguration.Required
+                        Required : productSectionConfiguration.Required,
+                        InputType : productSectionConfiguration.InputType,
+                        IsInput : productSectionConfiguration.IsInput,
+                        IsCombobox : productSectionConfiguration.IsCombobox,
+                        PicklistValues : picklistValues
                     }
                     
                 newProductConfiguration.ProductSectionConfigurations.push(newProductSectionConfiguration);

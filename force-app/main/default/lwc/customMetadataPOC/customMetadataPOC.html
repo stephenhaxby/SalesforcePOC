@@ -16,14 +16,26 @@
                 <div class="slds-p-around_small">
                     <template for:each={productConfiguration.ProductSectionConfigurations} for:item="field">
                         <div class="centered-fields" key={field.FieldName}>
-                            <lightning-input
-                                data-id={field.FieldName}
-                                key={field.FieldName}
-                                label={field.Label}
-                                id={field.FieldName}
-                                type="text"
-                                required={field.Required}
-                            ></lightning-input>
+                            <template if:true={field.IsInput}>
+                                <lightning-input
+                                    data-id={field.FieldName}
+                                    key={field.FieldName}
+                                    label={field.Label}
+                                    id={field.FieldName}
+                                    type={field.InputType}
+                                    required={field.Required}
+                                ></lightning-input>
+                            </template>
+                            <template if:true={field.IsCombobox}>
+                                <lightning-combobox
+                                    data-id={field.FieldName}
+                                    key={field.FieldName}
+                                    label={field.Label}
+                                    id={field.FieldName}
+                                    required={field.Required}
+                                    options={field.PicklistValues}
+                                ></lightning-combobox>
+                            </template>
                         </div>
                     </template>
                 </div>

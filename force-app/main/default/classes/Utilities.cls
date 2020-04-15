@@ -79,7 +79,7 @@ public class Utilities
                 Schema.DescribeFieldResult field = fieldDescribeTokens.get(productSectionConfiguration.FieldName).getDescribe();
                 
                 productSectionConfiguration.Label = field.getLabel();
-                productSectionConfiguration.InputType = field.getType().name();
+                productSectionConfiguration.Type = field.getType().name();
 
                 if(field.getType().name() == 'PICKLIST'){
                     productSectionConfiguration.PicklistValues = new Map<String,String>();

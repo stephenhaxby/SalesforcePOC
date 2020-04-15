@@ -5,7 +5,34 @@ public class ProductSectionConfiguration {
     public String Label { get; set; }
 
     @AuraEnabled
-    public String InputType { get; set; }
+    public String Type { get; set; }
+
+    @AuraEnabled
+    public String InputType { get {
+        switch on Type {
+            when 'BOOLEAN' {
+                return 'checkbox';
+            }
+            //STRING
+            when else {
+                return 'text';
+            }
+        }
+    }}
+
+    @AuraEnabled
+    public Boolean IsInput {
+        get {
+            return Type != 'PICKLIST';
+        }
+    }
+
+    @AuraEnabled
+    public Boolean IsCombobox {
+        get {
+            return Type == 'PICKLIST';
+        }
+    }
 
     @AuraEnabled
     public Map<String, String> PicklistValues { get; set; }
