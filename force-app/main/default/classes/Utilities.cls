@@ -1,5 +1,6 @@
 public class Utilities
 {
+    //FIELD SET FUNCTIONS
     @AuraEnabled(cacheable = true)
     public static Map<String, String> getFieldSetNames(String objectApiName)
     {
@@ -34,5 +35,48 @@ public class Utilities
     private static Map<String, Schema.FieldSet> getFieldSets(String objectApiName)
     {
         return ((SObject)Type.forName(objectApiName).newInstance()).getSObjectType().getDescribe().FieldSets.getMap();
+    }
+
+    //CUSTOM METADATA FUNCTIONS
+
+    public static Map<String, String> productConfigurationGetAll(){
+        List<ProductConfiguration__mdt> productConfigurations = [
+            SELECT Label, DeveloperName
+            FROM ProductConfiguration__mdt
+        ];
+
+        Map<String, String> configurations = new Map<String, String>();
+
+        for(ProductConfiguration__mdt productConfiguration : productConfigurations){
+            configurations.put(productConfiguration.DeveloperName, productConfiguration.Label);
+        }
+
+        return configurations;
+    }
+
+    public static ProductConfigurations productConfigurationsGet(String name){
+        ProductConfiguration__mdt productConfiguration = [
+            SELECT Label, DeveloperName, Configuration__c
+            FROM ProductConfiguration__mdt
+            WHERE DeveloperName = :name
+        ];
+
+        ProductConfigurations productConfigurations = 
+            (ProductConfigurations)JSON.deserialize(productConfiguration.Configuration__c, ProductConfigurations.class);
+        
+        return productConfigurations;
+    }
+
+    public static ProductSectionConfigurations productSectionConfigurationsGet(String name){
+        ProductSectionConfiguration__mdt productSectionConfiguration = [
+            SELECT Label, DeveloperName, Configuration__c
+            FROM ProductSectionConfiguration__mdt
+            WHERE DeveloperName = :name
+        ];
+
+        ProductSectionConfigurations productSectionConfigurations = 
+            (ProductSectionConfigurations)JSON.deserialize(productSectionConfiguration.Configuration__c, ProductSectionConfigurations.class);
+        
+        return productSectionConfigurations;
     }
 }
