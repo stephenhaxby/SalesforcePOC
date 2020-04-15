@@ -60,7 +60,7 @@ export default class CustomMetadataPOC extends LightningElement {
         }
 
         console.log('2');
-        // console.log(data);
+        console.log(data);
 
         // var i;
         // for (i = 0; i < data.ProductConfigurations.length; i++) {

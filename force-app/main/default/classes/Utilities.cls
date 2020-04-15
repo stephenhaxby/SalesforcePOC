@@ -56,14 +56,24 @@ public class Utilities
 
     @AuraEnabled(cacheable = true)
     public static ProductConfigurations productConfigurationsGet(String name){
-        ProductConfiguration__mdt productConfiguration = [
+        ProductConfiguration__mdt productConfigurationMetadata = [
             SELECT Label, DeveloperName, Configuration__c
             FROM ProductConfiguration__mdt
             WHERE DeveloperName = :name
         ];
 
         ProductConfigurations productConfigurations = 
-            (ProductConfigurations)JSON.deserialize(productConfiguration.Configuration__c, ProductConfigurations.class);
+            (ProductConfigurations)JSON.deserialize(productConfigurationMetadata.Configuration__c, ProductConfigurations.class);
+
+        for(ProductConfiguration productConfiguration : productConfigurations.ProductConfigurations){
+
+            productConfiguration.ProductSectionConfigurations = new List<ProductSectionConfiguration>();
+
+            List<ProductSectionConfiguration> productSectionConfigurations = 
+                productSectionConfigurationsGet(productConfiguration.ProductSectionConfiguration).ProductSectionConfigurations;
+
+            productConfiguration.ProductSectionConfigurations.addAll(productSectionConfigurations);
+        }
 
         return productConfigurations;
     }
