@@ -38,7 +38,7 @@ public class Utilities
     }
 
     //CUSTOM METADATA FUNCTIONS
-
+    @AuraEnabled(cacheable = true)
     public static Map<String, String> productConfigurationGetAll(){
         List<ProductConfiguration__mdt> productConfigurations = [
             SELECT Label, DeveloperName
@@ -54,6 +54,7 @@ public class Utilities
         return configurations;
     }
 
+    @AuraEnabled(cacheable = true)
     public static ProductConfigurations productConfigurationsGet(String name){
         ProductConfiguration__mdt productConfiguration = [
             SELECT Label, DeveloperName, Configuration__c
@@ -63,10 +64,11 @@ public class Utilities
 
         ProductConfigurations productConfigurations = 
             (ProductConfigurations)JSON.deserialize(productConfiguration.Configuration__c, ProductConfigurations.class);
-        
+
         return productConfigurations;
     }
 
+    @AuraEnabled(cacheable = true)
     public static ProductSectionConfigurations productSectionConfigurationsGet(String name){
         ProductSectionConfiguration__mdt productSectionConfiguration = [
             SELECT Label, DeveloperName, Configuration__c
