@@ -23,7 +23,7 @@ public class ProductSectionConfiguration {
     @AuraEnabled
     public Boolean IsInput {
         get {
-            return Type != 'PICKLIST';
+            return Type == 'STRING';
         }
     }
 
@@ -31,6 +31,13 @@ public class ProductSectionConfiguration {
     public Boolean IsCombobox {
         get {
             return Type == 'PICKLIST';
+        }
+    }
+
+    @AuraEnabled
+    public Boolean IsCheckbox {
+        get {
+            return Type == 'BOOLEAN';
         }
     }
 

@@ -17,6 +17,13 @@
                     <template for:each={productConfiguration.ProductSectionConfigurations} for:item="field">
                         <div class="centered-fields" key={field.FieldName}>
                             <template if:true={field.IsInput}>
+                                <lightning-button-icon 
+                                    hidden={editIconVisible} 
+                                    class="btnIconOverlay_Text" 
+                                    variant="bare" 
+                                    icon-name="utility:edit"
+                                    onclick={handleEditClick}
+                                ></lightning-button-icon>
                                 <lightning-input
                                     data-id={field.FieldName}
                                     key={field.FieldName}
@@ -24,8 +31,32 @@
                                     id={field.FieldName}
                                     type={field.InputType}
                                     required={field.Required}
+                                    read-only={readOnlyMode}
+                                    onfocus={handleEditClick}
+                                    class={boarderBottom}
                                 ></lightning-input>
                             </template>
+
+                            <template if:true={field.IsCheckbox}>
+                                <lightning-button-icon 
+                                    hidden={editIconVisible} 
+                                    class="btnIconOverlay_Checkbox" 
+                                    variant="bare" 
+                                    icon-name="utility:edit"
+                                    onclick={handleEditClick}
+                                ></lightning-button-icon>
+                                <lightning-input
+                                    data-id={field.FieldName}
+                                    key={field.FieldName}
+                                    label={field.Label}
+                                    id={field.FieldName}
+                                    type={field.InputType}
+                                    required={field.Required}
+                                    disabled={readOnlyMode}
+                                    onclick={handleEditClick}
+                                ></lightning-input>
+                            </template>
+
                             <template if:true={field.IsCombobox}>
                                 <lightning-combobox
                                     data-id={field.FieldName}
@@ -34,6 +65,7 @@
                                     id={field.FieldName}
                                     required={field.Required}
                                     options={field.PicklistValues}
+                                    read-only={readOnlyMode}
                                 ></lightning-combobox>
                             </template>
                         </div>
@@ -43,24 +75,11 @@
         </div>
     </template>
 
-    <!-- <div class="slds-p-top_medium">
-        <lightning-card title="Fieldset Fields">
-            <div class="slds-p-around_small">
-                <template for:each={trackedFieldsetValues} for:item="field">
-                    <div class="centered-fields" key={field.Path}>
-                        <lightning-input
-                            data-id={field.Path}
-                            key={field.Path}
-                            label={field.Label}
-                            id={field.Path}
-                            onchange={updateFieldValue}
-                            type={field.InputType}
-                            required={field.Required}
-                            field-level-help={field.HelpText}
-                        ></lightning-input>
-                    </div>
-                </template>
-            </div>
-        </lightning-card>
-    </div> -->
+    <template if:false={readOnlyMode}>
+        <div class="form-footer slds-p-vertical_medium slds-align_absolute-center">
+            <lightning-button class="slds-m-horizontal_xx-small" title="Cancel" label="Cancel" onclick={handleCancelClick}></lightning-button>
+            <lightning-button class="slds-m-horizontal_xx-small" variant="brand" title="Save" label="Save" onclick={handleSaveClick}></lightning-button>
+        </div>
+    </template>
+
 </template>

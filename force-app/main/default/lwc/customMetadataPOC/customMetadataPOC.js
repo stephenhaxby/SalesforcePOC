@@ -14,21 +14,21 @@ export default class CustomMetadataPOC extends LightningElement {
     @track selectedFormTypeOption;
     @track trackedProductConfigurations = [];
     @track currentProductConfigurations;
+    @track readOnlyMode = true;
+    @track boarderBottom = 'borderBotton'
 
     @wire(productConfigurationsGet, {name: '$selectedFormTypeOption'})
     myWireFunction({data, error}){
-        if(data){
-            console.log('1');
-            console.log(data);
-        }
-        
         this.currentProductConfigurations = data;
-
         this.setProductConfigurations(data);
     }
 
     @wire(getProductConfigurationNames)
     wiredProductConfigurationNames;
+
+    get editIconVisible(){
+        return !this.readOnlyMode;
+    }
 
     // //Gets the field sets available for selection
     get formTypeOptions() {
@@ -58,9 +58,6 @@ export default class CustomMetadataPOC extends LightningElement {
         if(!data){
             return;
         }
-
-        console.log('2');
-        console.log(data);
 
         var productConfigurations = {
             ProductConfigurations : []
@@ -95,19 +92,34 @@ export default class CustomMetadataPOC extends LightningElement {
                         InputType : productSectionConfiguration.InputType,
                         IsInput : productSectionConfiguration.IsInput,
                         IsCombobox : productSectionConfiguration.IsCombobox,
+                        IsCheckbox : productSectionConfiguration.IsCheckbox,
                         PicklistValues : picklistValues
                     }
                     
                 newProductConfiguration.ProductSectionConfigurations.push(newProductSectionConfiguration);
+
+                //console.log(productSectionConfiguration.Type);
             }
 
             productConfigurations.ProductConfigurations.push(newProductConfiguration);
         }
 
-        console.log('3');
-        console.log(productConfigurations);
-
         //this.trackedProductConfigurations = data.ProductConfigurations;
         this.trackedProductConfigurations = productConfigurations.ProductConfigurations;
+    }
+
+    handleEditClick(event) {
+        this.readOnlyMode = false;
+        this.boarderBottom = '';
+    }
+
+    handleSaveClick(event){
+        this.readOnlyMode = true;
+        this.boarderBottom = 'borderBotton';
+    }
+
+    handleCancelClick(event){
+        this.readOnlyMode = true;
+        this.boarderBottom = 'borderBotton';
     }
 }

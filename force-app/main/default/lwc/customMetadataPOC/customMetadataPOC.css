@@ -1,0 +1,15 @@
+.btnIconOverlay_Text {
+    position: absolute;
+    z-index: 1;
+    margin: 2.5% 0 0 96%;
+}
+
+.btnIconOverlay_Checkbox {
+    position: absolute;
+    z-index: 1;
+    margin: 0.5% 0 0 96%;
+}
+
+.borderBotton {
+    border-bottom: var(--lwc-borderWidthThin,1px) solid var(--lwc-colorBorder,rgb(221, 219, 218))
+}
