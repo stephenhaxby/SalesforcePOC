@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 
 import getProductConfigurationNames from '@salesforce/apex/Utilities.productConfigurationGetAll';
 import productConfigurationsGet from '@salesforce/apex/Utilities.productConfigurationsGet';
-import productSectionConfigurationsGet from '@salesforce/apex/Utilities.productSectionConfigurationsGet';
+import getProduct from '@salesforce/apex/ProductHelper.getProduct';
 
 import PRODUCT2_OBJECT from '@salesforce/schema/Product2';
 
@@ -11,13 +11,18 @@ export default class CustomMetadataPOC extends LightningElement {
     objectType = PRODUCT2_OBJECT;
     objectApiName = 'Product2';
 
+    @api recordId;
+
     @track selectedFormTypeOption;
     @track trackedProductConfigurations = [];
     @track currentProductConfigurations;
     @track readOnlyMode = true;
     @track boarderBottom = 'borderBotton'
 
-    @wire(productConfigurationsGet, {name: '$selectedFormTypeOption'})
+    @wire(getProduct, { recordId: '01t0I000006x2QfQAI' })
+    product;
+
+    @wire(productConfigurationsGet, { name: '$selectedFormTypeOption' })
     myWireFunction({data, error}){
         this.currentProductConfigurations = data;
         this.setProductConfigurations(data);
@@ -26,15 +31,23 @@ export default class CustomMetadataPOC extends LightningElement {
     @wire(getProductConfigurationNames)
     wiredProductConfigurationNames;
 
+    get productData(){
+        if(!this.product || !this.product.data) {
+            return '';
+        }
+        
+        return this.product.data.ProductConfiguration__c;
+    }
+
     get editIconVisible(){
         return !this.readOnlyMode;
     }
 
     // //Gets the field sets available for selection
     get formTypeOptions() {
-         if (!this.wiredProductConfigurationNames || !this.wiredProductConfigurationNames.data) {
-             return [];
-         }
+        if (!this.wiredProductConfigurationNames || !this.wiredProductConfigurationNames.data) {
+            return [];
+        }
 
         var fieldSets = this.wiredProductConfigurationNames.data;
 
