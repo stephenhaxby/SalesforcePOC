@@ -19,8 +19,16 @@ export default class CustomMetadataPOC extends LightningElement {
     @track readOnlyMode = true;
     @track boarderBottom = 'borderBotton'
 
-    @wire(getProduct, { recordId: '01t0I000006x2QfQAI' })
     product;
+
+    @wire(getProduct, { recordId: '$recordId'})
+    myProductWireFunction({data, error}){
+        if(data){
+            this.product = data;
+            console.log(this.product);
+            this.selectedFormTypeOption = data.ProductConfiguration__c;
+        }
+    }
 
     @wire(productConfigurationsGet, { name: '$selectedFormTypeOption' })
     myWireFunction({data, error}){
@@ -30,14 +38,6 @@ export default class CustomMetadataPOC extends LightningElement {
 
     @wire(getProductConfigurationNames)
     wiredProductConfigurationNames;
-
-    get productData(){
-        if(!this.product || !this.product.data) {
-            return '';
-        }
-        
-        return this.product.data.ProductConfiguration__c;
-    }
 
     get editIconVisible(){
         return !this.readOnlyMode;
@@ -106,9 +106,12 @@ export default class CustomMetadataPOC extends LightningElement {
                         IsInput : productSectionConfiguration.IsInput,
                         IsCombobox : productSectionConfiguration.IsCombobox,
                         IsCheckbox : productSectionConfiguration.IsCheckbox,
-                        PicklistValues : picklistValues
+                        PicklistValues : picklistValues,
+                        Value : this.product[productSectionConfiguration.FieldName]
                     }
                     
+console.log(newProductSectionConfiguration);
+
                 newProductConfiguration.ProductSectionConfigurations.push(newProductSectionConfiguration);
 
                 //console.log(productSectionConfiguration.Type);

@@ -1,15 +1,12 @@
 <template>
-    <lightning-card title="Select a Product Configuration">
+    <lightning-card title="Product Configuration">
         <div class="slds-p-around_small">
-            
-            <lightning-input label="Test" value={productData}></lightning-input>
-
             <lightning-combobox
                 label="Form Type"
                 onchange={handleFormTypeChange}
                 placeholder="Select an option"
                 options={formTypeOptions}
-                
+                value={selectedFormTypeOption}
             ></lightning-combobox>
         </div>
     </lightning-card>
@@ -19,7 +16,7 @@
             <lightning-card title={productConfiguration.Label}>
                 <div class="slds-p-around_small">
                     <template for:each={productConfiguration.ProductSectionConfigurations} for:item="field">
-                        <div class="centered-fields" key={field.FieldName}>
+                        <div class="slds-p-bottom_small centered-fields" key={field.FieldName}>
                             <template if:true={field.IsInput}>
                                 <lightning-button-icon 
                                     hidden={editIconVisible} 
@@ -38,6 +35,7 @@
                                     read-only={readOnlyMode}
                                     onfocus={handleEditClick}
                                     class={boarderBottom}
+                                    value={field.Value}
                                 ></lightning-input>
                             </template>
 
@@ -58,6 +56,7 @@
                                     required={field.Required}
                                     disabled={readOnlyMode}
                                     onclick={handleEditClick}
+                                    checked={field.Value}
                                 ></lightning-input>
                             </template>
 
