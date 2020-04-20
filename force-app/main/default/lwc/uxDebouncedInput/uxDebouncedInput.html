@@ -1,10 +1,10 @@
 <template>
-    <lightning-input
-        name="enter-search"
-        label={label}
-        onchange={handleChange}
-        type="search"
-        value={value}
-    >
-    </lightning-input>
+    <div class="slds-form-element">
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+            <lightning-icon class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default searchIcon"
+                size="x-small" icon-name="utility:search"></lightning-icon>
+            <lightning-input name="enter-search" label={label} onchange={handleChange} value={value}>
+            </lightning-input>
+        </div>
+    </div>
 </template>
