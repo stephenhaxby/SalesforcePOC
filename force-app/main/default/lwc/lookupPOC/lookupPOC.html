@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="Auto-Complete">
+        <div class="slds-p-around_small">
+            <c-ux-quick-lookup
+                object-api-name="Contact"
+                icon-name="standard:contact"
+                label="Contact Lookup"
+                fields="Id,Firstname,Lastname"
+                onrecordselected={recordSelected}
+            ></c-ux-quick-lookup>
+        </div>
+    </lightning-card>
+
+    <div class="form-footer slds-p-vertical_medium slds-align_absolute-center">
+        <lightning-button class="slds-m-horizontal_xx-small" title="Cancel" label="Cancel" onclick={handleCancelClick}></lightning-button>
+        <lightning-button class="slds-m-horizontal_xx-small" variant="brand" title="Save" label="Save" onclick={handleSaveClick}></lightning-button>
+    </div>
+</template>
