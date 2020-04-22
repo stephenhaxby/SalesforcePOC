@@ -3,9 +3,10 @@
         <div class="slds-p-around_small">
             <c-ux-quick-lookup
                 object-api-name="Contact"
-                icon-name="standard:contact"
-                label="Contact Lookup"
-                fields="Id,Firstname,Lastname"
+                icon-name="standard:address"
+                label="Address Lookup"
+                placeholder="Search of Address or Lot"
+                query-field="Lookup_Address__c"
                 onrecordselected={recordSelected}
             ></c-ux-quick-lookup>
         </div>
