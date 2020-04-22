@@ -16,7 +16,6 @@ public with sharing class CustomLookUpController {
             List <sObject> lstOfRecords = Database.query(sQuery);
             for (sObject obj: lstOfRecords) {
                 returnList.add(obj);
-                //returnList.add('{ "Id" : "8712jnbkjhb12", "Name" : "Address 1" }');
             }
         } catch (Exception e) {
             throw new AuraHandledException('That didn\'n work:'+sQuery+'\n'+e.getMessage());
