@@ -9,7 +9,6 @@ export default class LookupPOC extends LightningElement {
     }
 
     handleSaveClick(event){
-        console.log('handleSaveClick');
         console.log(this.selectedRecordId);
     }
 }

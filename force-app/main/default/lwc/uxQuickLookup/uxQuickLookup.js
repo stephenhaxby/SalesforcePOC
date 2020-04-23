@@ -50,7 +50,6 @@ export default class UxQuickLookup extends LightningElement {
         this.showSpinner = false;
         if (newValues && newValues.length > 0) {
             this.message = null;
-            console.log(newValues);
             this.results = newValues;
         } else {
             this.message = 'no results found';
