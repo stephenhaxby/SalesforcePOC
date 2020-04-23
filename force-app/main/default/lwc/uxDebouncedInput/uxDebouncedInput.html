@@ -4,22 +4,22 @@
             <lightning-icon class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default searchIcon"
                 size="x-small" icon-name="utility:search"></lightning-icon>
 
-                <lightning-input name="enter-search" placeholder={placeholder} onchange={handleChange} value={value} label={label}></lightning-input>
+            <!-- <lightning-input required={required} name="enter-search" placeholder={placeholder} onchange={handleChange} value={value} label={label}></lightning-input> -->
 
             <!-- <lightning-input type="search" required={required} name="enter-search" placeholder={placeholder} onchange={handleChange} value={value} label={label}></lightning-input> -->
 
-            <!-- <div class="slds-form-element">
-                <label class="slds-form-element__label" for="text-input-id-1">
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">
                     <template if:true={required}>
-                        <abbr class="slds-required" title="required">* </abbr>
+                        <abbr class="slds-required" title="required">*</abbr>
                     </template>
                     {label}
                 </label>
                 <div class="slds-form-element__control">
-                    <input type="text" id="text-input-id-1" name="enter-search" placeholder={placeholder}
-                        onkeyup={handleChange} value={value} class="slds-input" />
+                    <input type="text" name="enter-search" placeholder={placeholder}
+                        onkeyup={handleChange} value={value} class="slds-input" onblur={handleBlur} />
                 </div>
-            </div> -->
+            </div>
 
         </div>
     </div>

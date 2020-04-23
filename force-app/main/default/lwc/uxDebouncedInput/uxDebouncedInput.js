@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 export default class UxDebouncedInput extends LightningElement {
     @api label = 'Lookup';
@@ -10,6 +10,16 @@ export default class UxDebouncedInput extends LightningElement {
     constructor() {
         super();
         this.timeout = null;
+    }
+
+    /*
+        highlight field when lose focus and no value is entered
+    */
+    handleBlur(event) {
+        if(this.value === ''){
+            event.target.classList.add('slds-has-error');
+            event.target.classList.add('isRequiredValid');
+        }
     }
 
     /*
