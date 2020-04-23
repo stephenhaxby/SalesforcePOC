@@ -8,13 +8,14 @@ export default class UxQuickLookup extends LightningElement {
     @api placeholder = '';
     @api queryField = null;
     @api fieldName;
+    @api required = false;
 
     @track resultClass;
     @track selectedRecord = null;
     @track results = null;
     @track message = null;
     @track showSpinner = false;
-    @track lastSearchValue;
+    @track lastSearchValue = '';
 
     constructor() {
         super();

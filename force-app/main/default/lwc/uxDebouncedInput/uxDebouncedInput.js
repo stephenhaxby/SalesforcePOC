@@ -5,6 +5,7 @@ export default class UxDebouncedInput extends LightningElement {
     @api placeholder = '';
     @api delay = 300;
     @api value;
+    @api required = false;
 
     constructor() {
         super();
