@@ -12,19 +12,22 @@ export default class UxDebouncedInput extends LightningElement {
         this.timeout = null;
     }
 
-    /* Bubbles change event up after debouncing */
+    /*
+        onchange event handler
+        Looks after debouncing
+    */
     handleChange(event) {
         event.stopPropagation();
         window.clearTimeout(this.timeout);
         let searchTerm = event.target.value;
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.timeout = window.setTimeout(() => {
             this.fireChange(searchTerm);
         }, this.delay);
     }
 
-    /* Sends changes back compatible to extended form when
-       the fieldName as been set */
+    /*
+        Dispatches an event containing the search term
+    */
     fireChange(changedValue) {
         let eventName = this.fieldName ? 'valueChanged' : 'change';
         let payload = this.fieldName

@@ -21,6 +21,10 @@ export default class UxQuickLookup extends LightningElement {
         this.switchResult(false);
     }
 
+    /*
+        Handler for the inputs search term change event
+        Calls APEX class to get the search results
+    */
     handleSearchTerm(event) {
         let searchValue = event.detail;
         if (searchValue) {
@@ -46,6 +50,9 @@ export default class UxQuickLookup extends LightningElement {
         this.lastSearchValue = searchValue;
     }
 
+    /*
+        Sets the results area's values
+    */
     setResult(newValues) {
         this.showSpinner = false;
         if (newValues && newValues.length > 0) {
@@ -56,13 +63,18 @@ export default class UxQuickLookup extends LightningElement {
         }
     }
 
-    /* Shows and hides the result area */
+    /*
+        Shows and hides the results area
+    */
     switchResult(on) {
         this.resultClass = on
             ? 'slds-form-element slds-lookup slds-is-open'
             : 'slds-form-element slds-lookup slds-is-close';
     }
 
+    /*
+        Clears the selected record
+    */
     handlePillRemove() {
         this.selectedRecord = null;
         this.dispatchSelectionResult();
@@ -70,18 +82,16 @@ export default class UxQuickLookup extends LightningElement {
         this.switchResult(this.lastSearchValue && this.results);
     }
 
-    /* Sends back the result of a selection, compatible to extendedForm
-       when the property fieldName is set
+    /* 
+        Dispatches an event containing the selected record info
     */
     dispatchSelectionResult() {
-        let eventName = this.fieldName ? 'valueChanged' : 'recordselected';
         let payload = {
             canceled: this.selectedRecord ? false : true,
             recordId: this.selectedRecord ? this.selectedRecord.Id : null,
-            value: this.selectedRecord,
-            name: this.fieldName
+            value: this.selectedRecord
         };
-        let selected = new CustomEvent(eventName, {
+        let selected = new CustomEvent('recordselected', {
             detail: payload,
             bubbles: true,
             cancelable: true
@@ -89,13 +99,19 @@ export default class UxQuickLookup extends LightningElement {
         this.dispatchEvent(selected);
     }
 
+    /*
+        Displays error message and dispatches to a parent
+    */
     handleError(error) {
         this.showSpinner = false;
-        this.message = "Sorry didn't work!";
+        this.message = "Error returning search results.";
         let errorDispatch = new CustomEvent('failure', { detail: error });
         this.dispatchEvent(errorDispatch);
     }
 
+    /*
+        Sets the selected record
+    */
     handleRecordSelect(event) {
         this.selectedRecord = event.detail;
         this.dispatchSelectionResult();
