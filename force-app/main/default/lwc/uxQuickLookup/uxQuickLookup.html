@@ -34,7 +34,9 @@
                 size="small"
                 if:true={showSpinner}
             ></lightning-spinner>
-            <center>{message}</center>
+            <div class="slds-text-heading_small">
+                <center>{message}</center>
+            </div>            
             <template if:true={results} for:each={results} for:item="singleRec">
                 <c-ux-quick-lookup-result
                     icon-name={iconName}

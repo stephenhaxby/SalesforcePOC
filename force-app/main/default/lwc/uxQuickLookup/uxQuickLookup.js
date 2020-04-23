@@ -59,7 +59,8 @@ export default class UxQuickLookup extends LightningElement {
             this.message = null;
             this.results = newValues;
         } else {
-            this.message = 'no results found';
+            this.message = 'No results found...';
+            this.results = null;
         }
     }
 
