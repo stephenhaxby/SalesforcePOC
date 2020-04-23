@@ -5,7 +5,6 @@ export default class UxDebouncedInput extends LightningElement {
     @api placeholder = '';
     @api delay = 300;
     @api value;
-    @api fieldName = null;
 
     constructor() {
         super();
@@ -29,12 +28,8 @@ export default class UxDebouncedInput extends LightningElement {
         Dispatches an event containing the search term
     */
     fireChange(changedValue) {
-        let eventName = this.fieldName ? 'valueChanged' : 'change';
-        let payload = this.fieldName
-            ? { name: this.fieldName, value: this.changedValue }
-            : changedValue;
-        let customChange = new CustomEvent(eventName, {
-            detail: payload,
+        let customChange = new CustomEvent('change', {
+            detail: changedValue,
             bubbles: true,
             cancelable: true
         });
