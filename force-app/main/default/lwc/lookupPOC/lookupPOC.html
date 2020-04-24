@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="I am looking to develop a site">
+    <lightning-card title="I am looking to develop a site at">
         <div class="slds-p-around_small">
             <c-ux-quick-lookup
                 object-api-name="Contact"
@@ -11,25 +11,44 @@
                 required
             ></c-ux-quick-lookup>
         </div>
-        <div class="slds-p-around_small">
-            <lightning-input required type="text" label="Number of dwellings to be construted" onchange={numberOfDwellingsChange}></lightning-input>
-            <lightning-input required label="Estimated cost of development" onchange={estimatedCostChange}></lightning-input>
-        </div>
+        <template if:true={displayPropertyInformation}>
+            <div class="slds-p-around_small">
+                <lightning-input type="text" label="Lot size" readonly value={lotSizeDisplay}></lightning-input>
+                <lightning-input type="text" label="Zoning" readonly value={zoningDisplay}></lightning-input>
+            </div>
+        </template>
     </lightning-card>
+
     <div class="slds-p-top_medium">
-        <lightning-card title="Required to apply">
-            <template if:false={validApplication}>
-                <div class="slds-align_absolute-center">
-                    <span class="slds-text-heading_large slds-text-color_error">You don't meet the requirements for a Fast Lane Application</span>
-                </div>
-            </template>
+        <lightning-card title="Application details">
+            <div class="slds-p-around_small">
+                <lightning-input required type="text" label="Number of dwellings to be construted" onchange={numberOfDwellingsChange}></lightning-input>
+                <lightning-input required type="number" label="Estimated cost of development" onchange={estimatedCostChange}></lightning-input>
+            </div>
         </lightning-card>
     </div>
+
+    <template if:true={displayRequiredToApply}>
+        <div class="slds-p-top_medium">
+            <lightning-card title="Required to apply">
+                <template if:false={validApplication}>
+                    <div class="slds-align_absolute-center">
+                        <span class="slds-text-heading_large slds-text-color_error">You don't meet the requirements for a Fast Lane Application</span>
+                    </div>
+                </template>
+                <template if:true={validApplication}>
+    
+                    <span>You need to provide...</span>
+    
+                </template>
+            </lightning-card>
+        </div>
+    </template>
 
     <div class="form-footer slds-p-vertical_medium slds-align_absolute-center">
         <lightning-button class="slds-m-horizontal_xx-small" title="Cancel" label="Cancel" onclick={handleCancelClick}></lightning-button>
         <template if:true={validApplication}>
-            <lightning-button class="slds-m-horizontal_xx-small" variant="brand" title="Save" label="Save" onclick={handleSaveClick}></lightning-button>
+            <lightning-button class="slds-m-horizontal_xx-small" variant="brand" title="Create Application" label="Create Application" onclick={handleSaveClick}></lightning-button>
         </template>
     </div>
 </template>
