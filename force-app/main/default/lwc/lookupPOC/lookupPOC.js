@@ -3,23 +3,42 @@ import { LightningElement, track } from 'lwc';
 export default class LookupPOC extends LightningElement {
 
     @track selectedRecordId;
-    @track validApplication = true;
+    @track metropolitanPlanningLevyCertificateRequired = false;
 
     @track lotSize;
     @track lotSizeDisplay = '';
     @track zoning;
-    @track zoningDisplay = '';
-
-    @track metropolitanPlanningLevyCertificateRequired = false;
+    @track zoningDisplay = '';   
 
     @track numberOfDwellings;
     @track estimatedCost;
 
-    recordSelected(event){
-        // console.log(event.detail.canceled);
-        // console.log(event.detail.recordId);
-        // console.log(event.detail.value);
+    maxMPC = 1076000;
+    maxNumberOfDwellings = 1;
+    maxLotSize = 300;
+    aloudZones = ['CDZ1', 'CDZ3', 'CDZ4', 'GRZ1'];
 
+    get displayPropertyInformation(){
+        return this.selectedRecordId;
+    }
+
+    get displayRequiredToApply(){
+        return this.selectedRecordId
+            && this.numberOfDwellings
+            && this.estimatedCost;
+    }
+
+    get validApplication(){
+        //// aloudZones = ['CDZ1', 'CDZ3', 'CDZ4', 'GRZ1'];
+
+        return this.numberOfDwellingsValid()
+            && this.lotSizeValid()
+            && this.estimatedCostValid()
+            && (this.selectedRecordId);
+    }
+
+    //EVENTS
+    recordSelected(event){
         this.selectedRecordId = event.detail.recordId;
 
         //TODO: To come from MuleSoft Integration
@@ -30,29 +49,11 @@ export default class LookupPOC extends LightningElement {
         this.zoningDisplay = 'Comprehensive Development Zone (Schedule 1) Epping';
     }
 
-    get displayPropertyInformation(){
-        return this.selectedRecordId;
-    }
-
-    get displayRequiredToApply(){
-        console.log('displayRequiredToApply');
-        return this.selectedRecordId
-            && this.numberOfDwellings
-            && this.estimatedCost;
-    }
-
     handleSaveClick(event){
         console.log(this.selectedRecordId);
     }
 
     numberOfDwellingsChange(event){
-        if(event.detail.value){
-            this.validApplication = event.detail.value === "1";    
-        }
-        else {
-            this.validApplication = true;
-        }
-
         this.numberOfDwellings = event.detail.value;
     }
 
@@ -60,10 +61,23 @@ export default class LookupPOC extends LightningElement {
         this.estimatedCost = event.detail.value;
 
         if(event.detail.value){
-            this.metropolitanPlanningLevyCertificateRequired = event.detail.value > 1076000;
+            this.metropolitanPlanningLevyCertificateRequired = event.detail.value > this.maxMPC;
         }
         else {
             this.metropolitanPlanningLevyCertificateRequired = false;
         }
+    }
+
+    //HELPER METHODS
+    numberOfDwellingsValid(){
+        return this.numberOfDwellings && parseInt(this.numberOfDwellings) == this.maxNumberOfDwellings;
+    }
+
+    lotSizeValid(){
+        return this.lotSize && this.lotSize < this.maxLotSize;
+    }
+
+    estimatedCostValid(){
+        return this.estimatedCost && parseInt(this.estimatedCost) > 0;
     }
 }

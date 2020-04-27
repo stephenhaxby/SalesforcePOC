@@ -1,3 +1,9 @@
 .pillSize {
-    width: 100%;
+    width: 99%;
+    margin: 5px;
+}
+
+.pillContainer {    
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: 0.25rem;
 }

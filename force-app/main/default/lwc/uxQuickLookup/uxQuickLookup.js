@@ -17,6 +17,8 @@ export default class UxQuickLookup extends LightningElement {
     @track showSpinner = false;
     @track lastSearchValue = '';
 
+    lastSearchTerm = '';
+
     constructor() {
         super();
         this.switchResult(false);
@@ -48,7 +50,8 @@ export default class UxQuickLookup extends LightningElement {
             this.showSpinner = false;
             this.results = null;
         }
-        this.lastSearchValue = searchValue;
+        //this.lastSearchValue = searchValue;
+        this.lastSearchTerm = searchValue;
     }
 
     /*
@@ -88,6 +91,8 @@ export default class UxQuickLookup extends LightningElement {
         Dispatches an event containing the selected record info
     */
     dispatchSelectionResult() {
+        this.lastSearchValue = this.lastSearchTerm;
+
         let payload = {
             canceled: this.selectedRecord ? false : true,
             recordId: this.selectedRecord ? this.selectedRecord.Id : null,

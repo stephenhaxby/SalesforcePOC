@@ -6,9 +6,24 @@
                 required></c-ux-quick-lookup>
         </div>
         <template if:true={displayPropertyInformation}>
-            <div class="slds-p-around_small">
-                <lightning-input type="text" label="Lot size" readonly value={lotSizeDisplay}></lightning-input>
-                <lightning-input type="text" label="Zoning" readonly value={zoningDisplay}></lightning-input>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <div class="slds-p-around_small">
+                        <div class="slds-align_absolute-center">
+                            <div class="slds-map_container">
+                            <div class="slds-map">
+                                <iframe id="GoogleMapID" title="Google Maps iframe" src="https://www.google.com/maps/embed/v1/place?q=1%20market%2C%20san%20francisco&amp;key=AIzaSyDliLquGXGts9S8YtkWVolSQEJdBL1ZuWc"></iframe>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-p-around_small">
+                        <lightning-input type="text" label="Lot size" readonly value={lotSizeDisplay}></lightning-input>
+                        <lightning-input type="text" label="Zoning" readonly value={zoningDisplay}></lightning-input>
+                    </div>
+                </div>
             </div>
         </template>
     </lightning-card>
@@ -16,7 +31,7 @@
     <div class="slds-p-top_medium">
         <lightning-card title="Application details">
             <div class="slds-p-around_small">
-                <lightning-input required type="text" label="Number of dwellings to be construted"
+                <lightning-input required type="number" label="Number of dwellings to be construted"
                     onchange={numberOfDwellingsChange}></lightning-input>
                 <lightning-input required type="number" label="Estimated cost of development"
                     onchange={estimatedCostChange}></lightning-input>
@@ -28,7 +43,7 @@
         <div class="slds-p-top_medium">
             <lightning-card title="Required to apply">
                 <template if:false={validApplication}>
-                    <div class="slds-align_absolute-center">
+                    <div class="slds-align_absolute-center slds-p-bottom_large">
                         <span class="slds-text-heading_large slds-text-color_error">You don't meet the requirements for
                             a Fast Lane Application</span>
                     </div>
@@ -45,7 +60,7 @@
                                             <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
                                             </lightning-icon>
             
-                                            <div class="slds-icon_container slds-timeline__icon" title="task">
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
                                                 <lightning-icon icon-name="standard:document" variant="plain" size="medium">
                                                 </lightning-icon>
                                             </div>
@@ -78,7 +93,7 @@
                                             <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
                                             </lightning-icon>
             
-                                            <div class="slds-icon_container slds-timeline__icon" title="task">
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
                                                 <lightning-icon icon-name="standard:document" variant="plain" size="medium">
                                                 </lightning-icon>
                                             </div>
@@ -111,7 +126,7 @@
                                             <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
                                             </lightning-icon>
             
-                                            <div class="slds-icon_container slds-timeline__icon" title="task">
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
                                                 <lightning-icon icon-name="standard:document" variant="plain" size="medium">
                                                 </lightning-icon>
                                             </div>
@@ -144,7 +159,7 @@
                                             <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
                                             </lightning-icon>
             
-                                            <div class="slds-icon_container slds-timeline__icon" title="task">
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
                                                 <lightning-icon icon-name="standard:document" variant="plain" size="medium">
                                                 </lightning-icon>
                                             </div>
@@ -178,7 +193,7 @@
                                                 <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
                                                 </lightning-icon>
                     
-                                                <div class="slds-icon_container slds-timeline__icon" title="task">
+                                                <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
                                                     <lightning-icon icon-name="standard:document" variant="plain" size="medium">
                                                     </lightning-icon>
                                                 </div>
@@ -212,7 +227,7 @@
                                             <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
                                             </lightning-icon>
             
-                                            <div class="slds-icon_container slds-timeline__icon" title="task">
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
                                                 <lightning-icon icon-name="standard:currency" variant="plain" size="medium">
                                                 </lightning-icon>
                                             </div>
