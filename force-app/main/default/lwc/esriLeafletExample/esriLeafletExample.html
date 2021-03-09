@@ -1,0 +1,9 @@
+<template>
+    <div if:true={showMap}>
+        <c-esri-leaflet-map 
+            markers={locations} 
+            center={center} 
+            zoom="16">
+        </c-esri-leaflet-map>
+    </div>
+</template>

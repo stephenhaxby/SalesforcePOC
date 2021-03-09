@@ -1,0 +1,20 @@
+<template>
+    <div class="slds-p-top_medium">
+        <lightning-card title="Required to apply">
+            <div class="slds-p-around_small">
+                <ul class="slds-timeline">
+                    <template for:each={requiredDocuments} for:item="requiredDocument">
+                        <div key={requiredDocument.id}>
+                            <c-required-document name={requiredDocument.Name} description={requiredDocument.Description}
+                                knowledge-article-link={requiredDocument.KnowledgeArticleLink} icon-name="standard:document"></c-required-document>
+                        </div>
+                    </template>
+                    <template if:true={displayPaymentRequired}>
+                        <c-required-document name={paymentHeading} description={paymentDetails}
+                            icon-name="standard:currency"></c-required-document>
+                    </template>
+                </ul>
+            </div>
+        </lightning-card>
+    </div>
+</template>

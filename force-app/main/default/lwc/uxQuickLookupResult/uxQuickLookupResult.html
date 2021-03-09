@@ -1,7 +1,7 @@
 <template>
     <li role="presentation" class="slds-listbox__item" key={record.Id}>
         <div
-            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+            class="slds-media slds-listbox__option slds-listbox__option_entity"
             role="option"
             onclick={handleOnClick}
         >
@@ -14,21 +14,8 @@
                 ></lightning-icon>
             </div>
             <div class="slds-media__body">
-                <div class="slds-m-bottom_small list-title">
-                    {record.Name}
-                </div>
-                <div
-                    if:true={fieldNameResults}
-                    class="slds-listbox__option-meta"
-                >
-                    <span
-                        class="slds-badge list-details"
-                        for:each={fieldNameResults}
-                        for:item="fnr"
-                        key={fnr.name}
-                    >
-                        {fnr.value}
-                    </span>
+                <div class="list-title">
+                    {recordName}
                 </div>
             </div>
         </div>

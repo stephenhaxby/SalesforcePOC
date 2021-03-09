@@ -1,0 +1,35 @@
+<template>
+    <li>
+        <div class="slds-timeline__item_expandable slds-timeline__item_email">
+            <span class="slds-assistive-text">Required Document</span>
+            <div class="slds-media">
+                <div class="slds-media__figure">
+
+                    <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                    </lightning-icon>
+
+                    <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="Required Document">
+                        <lightning-icon icon-name={iconName} variant="plain" size="medium">
+                        </lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                        <div
+                            class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                            <h3 class="slds-truncate"
+                                title="Application">
+                                <a href={knowledgeArticleLink}>
+                                    <strong>{name}</strong>
+                                </a>
+                            </h3>
+                        </div>                                
+                    </div>
+                    <p class="slds-m-horizontal_xx-small">
+                        {description}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </li>
+</template>

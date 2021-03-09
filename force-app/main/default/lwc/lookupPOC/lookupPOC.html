@@ -1,18 +1,269 @@
 <template>
-    <lightning-card title="Auto-Complete">
+    <lightning-card title="I am looking to develop a site at">
         <div class="slds-p-around_small">
-            <c-ux-quick-lookup
-                object-api-name="Contact"
-                icon-name="standard:contact"
-                label="Contact Lookup"
-                fields="Id,Firstname,Lastname"
-                onrecordselected={recordSelected}
-            ></c-ux-quick-lookup>
+            <c-ux-quick-lookup object-api-name="Contact" icon-name="standard:address" label="Address Lookup"
+                placeholder="Search of Address or Lot" query-field="Lookup_Address__c" onrecordselected={recordSelected}
+                required></c-ux-quick-lookup>
         </div>
+        <template if:true={displayPropertyInformation}>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <div class="slds-p-around_small">
+                        <div class="slds-align_absolute-center">
+                            <div class="slds-map_container">
+                            <div class="slds-map">
+                                <iframe id="GoogleMapID" title="Google Maps iframe" src="https://www.google.com/maps/embed/v1/place?q=1%20market%2C%20san%20francisco&amp;key=AIzaSyDliLquGXGts9S8YtkWVolSQEJdBL1ZuWc"></iframe>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-p-around_small">
+                        <lightning-input type="text" label="Lot size" readonly value={lotSizeDisplay}></lightning-input>
+                        <lightning-input type="text" label="Zoning" readonly value={zoningDisplay}></lightning-input>
+                    </div>
+                </div>
+            </div>
+        </template>
     </lightning-card>
 
+    <div class="slds-p-top_medium">
+        <lightning-card title="Application details">
+            <div class="slds-p-around_small">
+                <lightning-input required type="number" label="Number of dwellings to be construted"
+                    onchange={numberOfDwellingsChange}></lightning-input>
+                <lightning-input required type="number" label="Estimated cost of development"
+                    onchange={estimatedCostChange}></lightning-input>
+            </div>
+        </lightning-card>
+    </div>
+
+    <template if:true={displayRequiredToApply}>
+        <div class="slds-p-top_medium">
+            <lightning-card title="Required to apply">
+                <template if:false={validApplication}>
+                    <div class="slds-align_absolute-center slds-p-bottom_large">
+                        <span class="slds-text-heading_large slds-text-color_error">You don't meet the requirements for
+                            a Fast Lane Application</span>
+                    </div>
+                </template>
+                <template if:true={validApplication}>
+                    <div class="slds-p-around_small">
+                        <ul class="slds-timeline">
+                            <li>
+                                <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                    <span class="slds-assistive-text">task</span>
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+            
+                                            <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                                            </lightning-icon>
+            
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
+                                                <lightning-icon icon-name="standard:document" variant="plain" size="medium">
+                                                </lightning-icon>
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                    <h3 class="slds-truncate"
+                                                        title="Application">
+                                                        <a href="javascript:void(0);">
+                                                            <strong>Application</strong>
+                                                        </a>
+                                                    </h3>
+                                                </div>                                
+                                            </div>
+                                            <p class="slds-m-horizontal_xx-small">
+                                                Some info about the application
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                    <span class="slds-assistive-text">task</span>
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+            
+                                            <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                                            </lightning-icon>
+            
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
+                                                <lightning-icon icon-name="standard:document" variant="plain" size="medium">
+                                                </lightning-icon>
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                    <h3 class="slds-truncate"
+                                                        title="Application">
+                                                        <a href="javascript:void(0);">
+                                                            <strong>Title</strong>
+                                                        </a>
+                                                    </h3>
+                                                </div>                                
+                                            </div>
+                                            <p class="slds-m-horizontal_xx-small">
+                                                Title (Within last 3 months)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                    <span class="slds-assistive-text">task</span>
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+            
+                                            <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                                            </lightning-icon>
+            
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
+                                                <lightning-icon icon-name="standard:document" variant="plain" size="medium">
+                                                </lightning-icon>
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                    <h3 class="slds-truncate"
+                                                        title="Application">
+                                                        <a href="javascript:void(0);">
+                                                            <strong>Plans</strong>
+                                                        </a>
+                                                    </h3>
+                                                </div>                                
+                                            </div>
+                                            <p class="slds-m-horizontal_xx-small">
+                                                Architectural plans or Developer Approved Plans
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                    <span class="slds-assistive-text">task</span>
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+            
+                                            <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                                            </lightning-icon>
+            
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
+                                                <lightning-icon icon-name="standard:document" variant="plain" size="medium">
+                                                </lightning-icon>
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                    <h3 class="slds-truncate"
+                                                        title="Application">
+                                                        <a href="javascript:void(0);">
+                                                            <strong>MCP</strong>
+                                                        </a>
+                                                    </h3>
+                                                </div>                                
+                                            </div>
+                                            <p class="slds-m-horizontal_xx-small">
+                                                Memorandum of Common Provision (MCP) if referenced as a restriction on title
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <template if:true={metropolitanPlanningLevyCertificateRequired}>
+                                <li>
+                                    <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                        <span class="slds-assistive-text">task</span>
+                                        <div class="slds-media">
+                                            <div class="slds-media__figure">
+                    
+                                                <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                                                </lightning-icon>
+                    
+                                                <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
+                                                    <lightning-icon icon-name="standard:document" variant="plain" size="medium">
+                                                    </lightning-icon>
+                                                </div>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                    <div
+                                                        class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                        <h3 class="slds-truncate"
+                                                            title="Application">
+                                                            <a href="javascript:void(0);">
+                                                                <strong>Metropolitan Planning Levy certificate</strong>
+                                                            </a>
+                                                        </h3>
+                                                    </div>                                
+                                                </div>
+                                                <p class="slds-m-horizontal_xx-small">
+                                                    If the project valued over $1,076,000? If Yes, a current Metropolitan Planning Levy certificate must be provided with this application.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                            <li>
+                                <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                    <span class="slds-assistive-text">task</span>
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+            
+                                            <lightning-icon icon-name="utility:switch" variant="plain" size="x-small" class="slds-timeline__details-action-icon">
+                                            </lightning-icon>
+            
+                                            <div class="slds-icon_container slds-timeline__icon slds-p-left_xx-small" title="task">
+                                                <lightning-icon icon-name="standard:currency" variant="plain" size="medium">
+                                                </lightning-icon>
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                    <h3 class="slds-truncate"
+                                                        title="Application">
+                                                        <a href="javascript:void(0);">
+                                                            <strong>Payment</strong>
+                                                        </a>
+                                                    </h3>
+                                                </div>                                
+                                            </div>
+                                            <p class="slds-m-horizontal_xx-small">
+                                                Prescribed application fee
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+            </lightning-card>
+        </div>
+    </template>
+
     <div class="form-footer slds-p-vertical_medium slds-align_absolute-center">
-        <lightning-button class="slds-m-horizontal_xx-small" title="Cancel" label="Cancel" onclick={handleCancelClick}></lightning-button>
-        <lightning-button class="slds-m-horizontal_xx-small" variant="brand" title="Save" label="Save" onclick={handleSaveClick}></lightning-button>
+        <lightning-button class="slds-m-horizontal_xx-small" title="Cancel" label="Cancel" onclick={handleCancelClick}>
+        </lightning-button>
+        <template if:true={validApplication}>
+            <lightning-button class="slds-m-horizontal_xx-small" variant="brand" title="Create Application"
+                label="Create Application" onclick={handleSaveClick}></lightning-button>
+        </template>
     </div>
 </template>
